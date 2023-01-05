@@ -13,8 +13,8 @@
 #include <llapi/mc/ItemStack.hpp>
 #include <llapi/mc/MovementInterpolatorComponent.hpp>
 
-TInstanceHook(class ItemActor const*, "?_drop@Actor@@IEAAPEBVItemActor@@AEBVItemStack@@_N@Z", Actor, class ItemStack const& a2, bool a3) {
-	auto get = SymCall("??$tryGetComponent@UMovementInterpolatorComponent@@@EntityContextBase@@QEAAPEAUMovementInterpolatorComponent@@XZ", struct MovementInterpolatorComponent*, char*)((char*)this + 8);
-	*(int*)(get + 28) = 0;
-	return original(this, a2, a3);
+TInstanceHook(ItemActor const*, "?_drop@Actor@@IEAAPEBVItemActor@@AEBVItemStack@@_N@Z", Actor, ItemStack const& a2, bool a3) {
+    MovementInterpolatorComponent* get = SymCall("??$tryGetComponent@UMovementInterpolatorComponent@@@EntityContextBase@@QEAAPEAUMovementInterpolatorComponent@@XZ", MovementInterpolatorComponent*, char*)((char*)this + 8);
+    *(int*)(get + 28) = get->isActive();
+    return original(this, a2, a3);
 }
